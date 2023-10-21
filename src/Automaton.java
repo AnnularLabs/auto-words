@@ -1,9 +1,7 @@
 import com.spire.doc.Document;
 import com.spire.doc.documents.Paragraph;
-import com.spire.doc.fields.Field;
 import com.spire.doc.fields.TextRange;
 
-import javax.print.attribute.standard.Finishings;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -31,6 +29,7 @@ public class Automaton {
         Document document = new Document();
         document.loadFromFile(filePath);
 
+        /** 遍历section以及paragraph */
         for (int i = 0; i < document.getSections().getCount(); i++) {
             for (int j = 0; j < document.getSections().get(i).getParagraphs().getCount(); j++) {
 
@@ -38,9 +37,11 @@ public class Automaton {
 
                 for (Object element : paragraph.getChildObjects()) {
 
+                    /** 如果当前类型u是TextRange继续循环 */
+                    if (!(element instanceof TextRange)) continue;
+
                     TextRange textRange = (TextRange) element;
                     int textColorRGB = textRange.getCharacterFormat().getTextColor().getRGB();
-
                     if (textColorRGB == colorRGB) {
                         words.add(textRange.getText());
                     }
@@ -51,6 +52,9 @@ public class Automaton {
         writer();
     }
 
+    /**
+     * 将队列中存储的标记单词加入到.txt文本中
+     */
     private void writer() {
         targetFilePath = targetFilePath.isEmpty() ? "words.txt" : targetFilePath+"/words.txt";
         File output = new File(targetFilePath);
