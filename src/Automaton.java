@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -42,9 +43,9 @@ public class Automaton {
                     TextRange textRange = (TextRange) element;
                     int textColorRGB = textRange.getCharacterFormat().getTextColor().getRGB();
                     if (textColorRGB == colorRGB) {
-                        // 转换小写
-                        String word = textRange.getText().toLowerCase();
-                        words.add(word);
+                        // 转换小写，获取的Text连续需要分开为一个单词
+                        String[] word = textRange.getText().toLowerCase().split(" ");
+                        words.addAll(Arrays.asList(word));
                     }
                 }
             }
