@@ -36,14 +36,15 @@ public class Automaton {
                 Paragraph paragraph = document.getSections().get(i).getParagraphs().get(j);
 
                 for (Object element : paragraph.getChildObjects()) {
-
                     /** 如果当前类型u是TextRange继续循环 */
                     if (!(element instanceof TextRange)) continue;
 
                     TextRange textRange = (TextRange) element;
                     int textColorRGB = textRange.getCharacterFormat().getTextColor().getRGB();
                     if (textColorRGB == colorRGB) {
-                        words.add(textRange.getText());
+                        // 转换小写
+                        String word = textRange.getText().toLowerCase();
+                        words.add(word);
                     }
                 }
             }
