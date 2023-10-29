@@ -61,7 +61,7 @@ public class Automaton {
         targetFilePath = targetFilePath.isEmpty() ? "words.txt" : targetFilePath+"/words.txt";
         File output = new File(targetFilePath);
         try {
-            FileWriter fileWriter = new FileWriter(output);
+            FileWriter fileWriter = new FileWriter(output, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (String str : words) {
                 bufferedWriter.write(str);
