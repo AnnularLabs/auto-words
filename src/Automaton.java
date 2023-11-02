@@ -16,13 +16,18 @@ public class Automaton {
     private int colorRGB;
     private String targetFilePath;
     private Queue<String> words;
+    private int sum;
 
+    public Automaton(String filePath, int colorRGB, String targetFilePath, Queue<String> words, int sum) {
+        this.filePath = filePath;
+        this.colorRGB = colorRGB;
+        this.targetFilePath = targetFilePath;
+        this.words = words;
+        this.sum = sum;
+    }
 
     public Automaton(String filePath, int targetColor, String targetFilePath) {
-        this.filePath = filePath;
-        this.colorRGB = targetColor;
-        this.targetFilePath = targetFilePath;
-        this.words = new LinkedList<>();
+        this(filePath, targetColor, targetFilePath, new LinkedList<String>(), 0);
     }
 
     public void start() {
@@ -64,6 +69,7 @@ public class Automaton {
             FileWriter fileWriter = new FileWriter(output, true);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (String str : words) {
+                sum++;
                 bufferedWriter.write(str);
                 bufferedWriter.newLine();
             }
@@ -72,7 +78,7 @@ public class Automaton {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
+        System.out.println("add words ===> " + sum);
         System.out.println("Finish");
     }
 
@@ -93,5 +99,13 @@ public class Automaton {
 
     public void setColorRGB(int colorRGB) {
         this.colorRGB = colorRGB;
+    }
+
+    public int getSum() {
+        return sum;
+    }
+
+    public void setSum(int sum) {
+        this.sum = sum;
     }
 }
