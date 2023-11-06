@@ -73,6 +73,7 @@ public class Automaton {
                 bufferedWriter.write(str);
                 bufferedWriter.newLine();
             }
+            bufferedWriter.newLine();
             bufferedWriter.flush();
             bufferedWriter.close();
         } catch (IOException e) {
