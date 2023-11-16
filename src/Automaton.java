@@ -77,14 +77,15 @@ public class Automaton {
     private void getTxtContainsWords() {
 
         Path path = Paths.get(targetFilePath);
-
-        try {
-            List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
-            for (String str : strings) {
-                txtWords.put(str, 1);
+        if (Files.exists(path)) {
+            try {
+                List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
+                for (String str : strings) {
+                    txtWords.put(str, 1);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }

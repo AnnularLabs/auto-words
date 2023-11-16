@@ -4,14 +4,19 @@ I copy the articles into ``xxx.docx`` when I study English and mark the words I 
 
 **Currently this program will help me to extract the marked words**
 
+
+### Uus
+
+1. Specify the target file path
+
+2. Specify the output path
+
+
 ### TODO
 
 - [ ] format RGB vlaue
 
-- [ ] Optimize the code🤔️
-
 ### 🦄
 
-- I will improve according to their own needs, if you have good ideas welcome to discuss😇
-
+- If you have good ideas welcome to discuss😇
 - [post](https://agility6.site/blog/auto-word-java/)
