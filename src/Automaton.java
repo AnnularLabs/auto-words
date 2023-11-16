@@ -22,18 +22,18 @@ public class Automaton {
     private Map<String, Integer> txtWords;
     private List<String> repeatWords;
 
-    public Automaton(String filePath, int colorRGB, String targetFilePath, Queue<String> words, int sum) {
-        this.filePath = filePath;
-        this.colorRGB = colorRGB;
-        this.targetFilePath = targetFilePath.isEmpty() ? "words.txt" : targetFilePath+"/words.txt";;
-        this.words = words;
-        this.sum = sum;
-        this.txtWords = new HashMap<>();
-        this.repeatWords = new ArrayList<>();
+    public Automaton(String filePath, int colorRGB, String targetFilePath) {
+        this(filePath, colorRGB, targetFilePath, new LinkedList<>(), 0, new HashMap<>(), new ArrayList<>());
     }
 
-    public Automaton(String filePath, int targetColor, String targetFilePath) {
-        this(filePath, targetColor, targetFilePath, new LinkedList<String>(), 0);
+    public Automaton(String filePath, int colorRGB, String targetFilePath, Queue<String> words, int sum, Map<String, Integer> txtWords, List<String> repeatWords) {
+        this.filePath = filePath;
+        this.colorRGB = colorRGB;
+        this.targetFilePath = targetFilePath.isEmpty() ? "words.txt" : targetFilePath+"/words.txt";
+        this.words = words;
+        this.sum = sum;
+        this.txtWords = txtWords;
+        this.repeatWords = repeatWords;
     }
 
     public void start() {
@@ -91,22 +91,28 @@ public class Automaton {
 
     /**
      * 将队列中存储的标记单词加入到.txt文本中
+     * 最后输出标记单词与.txt重复的单词
      */
     private void writer() {
+
         File output = new File(targetFilePath);
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+
         try {
-            FileWriter fileWriter = new FileWriter(output, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+           fileWriter = new FileWriter(output, true);
+           bufferedWriter = new BufferedWriter(fileWriter);
             for (String str : words) {
                 sum++;
                 bufferedWriter.write(str);
                 bufferedWriter.newLine();
             }
             bufferedWriter.newLine();
-            bufferedWriter.flush();
-            bufferedWriter.close();
+
             System.out.println("Add words ===> " + sum);
             System.out.println("Finish");
+
             System.out.println("========== RepeatWords  ==========");
             for (String word : repeatWords) {
                 System.out.println(word);
@@ -114,6 +120,24 @@ public class Automaton {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } finally {
+
+            if (null != bufferedWriter) {
+                try {
+                    bufferedWriter.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (null != fileWriter) {
+                try {
+                    fileWriter.close();
+                } catch (IOException e) {
+                   e.printStackTrace();
+                }
+            }
+
         }
     }
 
