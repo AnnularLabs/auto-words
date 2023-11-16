@@ -11,6 +11,21 @@ I copy the articles into ``xxx.docx`` when I study English and mark the words I 
 
 2. Specify the output path
 
+- Execution of the program
+
+- Modify the example file to add new words
+
+- Execute the procedure again
+
+- Output repeat word
+
+![example](./src/main/resources/img/example.png)
+
+![example](./src/main/resources/img/output.png)
+
+![example](./src/main/resources/img/example-add-new-word.png)
+
+![example](./src/main/resources/img/output-new.png)
 
 ### TODO
 
