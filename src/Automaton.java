@@ -6,9 +6,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class Automaton {
 
@@ -17,13 +19,17 @@ public class Automaton {
     private String targetFilePath;
     private Queue<String> words;
     private int sum;
+    private Map<String, Integer> txtWords;
+    private List<String> repeatWords;
 
     public Automaton(String filePath, int colorRGB, String targetFilePath, Queue<String> words, int sum) {
         this.filePath = filePath;
         this.colorRGB = colorRGB;
-        this.targetFilePath = targetFilePath;
+        this.targetFilePath = targetFilePath.isEmpty() ? "words.txt" : targetFilePath+"/words.txt";;
         this.words = words;
         this.sum = sum;
+        this.txtWords = new HashMap<>();
+        this.repeatWords = new ArrayList<>();
     }
 
     public Automaton(String filePath, int targetColor, String targetFilePath) {
@@ -31,6 +37,8 @@ public class Automaton {
     }
 
     public void start() {
+
+        getTxtContainsWords();
 
         Document document = new Document();
         document.loadFromFile(filePath);
@@ -50,7 +58,11 @@ public class Automaton {
                     if (textColorRGB == colorRGB) {
                         // 转换小写，获取的Text连续需要分开为一个单词
                         String[] word = textRange.getText().toLowerCase().split(" ");
-                        words.addAll(Arrays.asList(word));
+                        if (!txtWords.containsKey(word[0])) {
+                            words.addAll(Arrays.asList(word));
+                        } else {
+                            repeatWords.addAll(Arrays.asList(word));
+                        }
                     }
                 }
             }
@@ -60,10 +72,27 @@ public class Automaton {
     }
 
     /**
+     * 获取.txt中包含的单词
+     */
+    private void getTxtContainsWords() {
+
+        Path path = Paths.get(targetFilePath);
+
+        try {
+            List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
+            for (String str : strings) {
+                txtWords.put(str, 1);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
      * 将队列中存储的标记单词加入到.txt文本中
      */
     private void writer() {
-        targetFilePath = targetFilePath.isEmpty() ? "words.txt" : targetFilePath+"/words.txt";
         File output = new File(targetFilePath);
         try {
             FileWriter fileWriter = new FileWriter(output, true);
@@ -76,11 +105,16 @@ public class Automaton {
             bufferedWriter.newLine();
             bufferedWriter.flush();
             bufferedWriter.close();
+            System.out.println("Add words ===> " + sum);
+            System.out.println("Finish");
+            System.out.println("========== RepeatWords  ==========");
+            for (String word : repeatWords) {
+                System.out.println(word);
+            }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("add words ===> " + sum);
-        System.out.println("Finish");
     }
 
 
@@ -108,5 +142,13 @@ public class Automaton {
 
     public void setSum(int sum) {
         this.sum = sum;
+    }
+
+    public String getTargetFilePath() {
+        return targetFilePath;
+    }
+
+    public void setTargetFilePath(String targetFilePath) {
+        this.targetFilePath = targetFilePath;
     }
 }
