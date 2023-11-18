@@ -1,3 +1,5 @@
+package autoword.auto;
+
 import com.spire.doc.Document;
 import com.spire.doc.documents.Paragraph;
 import com.spire.doc.fields.TextRange;
