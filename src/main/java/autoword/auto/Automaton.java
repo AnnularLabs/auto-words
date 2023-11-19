@@ -60,7 +60,7 @@ public class Automaton {
                     if (textColorRGB == colorRGB) {
                         // 转换小写，获取的Text连续需要分开为一个单词
                         String[] word = textRange.getText().toLowerCase().split(" ");
-                        if (!txtWords.containsKey(word[0])) {
+                        if (word.length >= 1 && !txtWords.containsKey(word[0])) {
                             words.addAll(Arrays.asList(word));
                         } else {
                             repeatWords.addAll(Arrays.asList(word));
