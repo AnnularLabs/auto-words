@@ -1,5 +1,6 @@
 package autoword.auto;
 
+import autoword.auto.utils.TxtUtil;
 import com.spire.doc.Document;
 import com.spire.doc.documents.Paragraph;
 import com.spire.doc.fields.TextRange;
@@ -8,10 +9,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Automaton {
@@ -40,8 +37,7 @@ public class Automaton {
 
     public void start() {
 
-        getTxtContainsWords();
-
+        txtWords = TxtUtil.getTxtContainsWords(targetFilePath);
         Document document = new Document();
         document.loadFromFile(filePath);
 
@@ -71,25 +67,6 @@ public class Automaton {
         }
 
         writer();
-    }
-
-    /**
-     * 获取.txt中包含的单词
-     */
-    private void getTxtContainsWords() {
-
-        Path path = Paths.get(targetFilePath);
-        if (Files.exists(path)) {
-            try {
-                List<String> strings = Files.readAllLines(path, StandardCharsets.UTF_8);
-                for (String str : strings) {
-                    txtWords.put(str, 1);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     /**
