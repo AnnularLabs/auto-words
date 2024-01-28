@@ -59,20 +59,17 @@ public class TextUtil {
         File output = new File(targetFilePath);
         FileWriter fileWriter = null;
         BufferedWriter bufferedWriter = null;
-        int sum = 0;
 
         try {
 
             fileWriter = new FileWriter(output, true);
             bufferedWriter = new BufferedWriter(fileWriter);
             for (String str : words) {
-                sum++;
                 bufferedWriter.write(str);
                 bufferedWriter.newLine();
             }
             bufferedWriter.newLine();
 
-            System.out.println("Add words ===> " + sum);
             System.out.println("Finish");
 
         } catch (IOException e) {
