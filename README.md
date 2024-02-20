@@ -11,5 +11,3 @@
 ### 🦄
 
 - If you have good ideas welcome to discuss😇
-
-- [post](https://agility6.site/blog/auto-word-java/)
